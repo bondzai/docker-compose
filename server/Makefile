@@ -7,12 +7,12 @@ save:
 	pip freeze > requirements.txt
 
 protoc:
-	python -m grpc_tools.protoc -I./protos --python_out=. --grpc_python_out=. ./protos/protorest.proto
+	protoc -I=. --python_out=. models.proto
 
 run:
-	uvicorn main:app --reload
+	uvicorn main:app --reload --port 8002
 
 gen-gitignore:
 	curl https://www.toptal.com/developers/gitignore/api/python > .gitignore
 
-.PHONY: init ninja-init
+.PHONY: init save protoc run gen-gitignore
