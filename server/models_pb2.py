@@ -19,24 +19,38 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0cmodels.proto\"\x1a\n\x07Message\x12\x0f\n\x07message\x18\x01 \x01(\t\",\n\x04Item\x12\x0f\n\x07item_id\x18\x01 \x01(\x05\x12\x13\n\x0bquery_param\x18\x02 \x01(\tb\x06proto3'
+  serialized_pb=b'\n\x0cmodels.proto\"E\n\tDataPoint\x12\x11\n\tsensor_id\x18\x01 \x01(\x05\x12\x13\n\x0btemperature\x18\x02 \x01(\x02\x12\x10\n\x08humidity\x18\x03 \x01(\x02\"-\n\nSensorData\x12\x1f\n\x0b\x64\x61ta_points\x18\x01 \x03(\x0b\x32\n.DataPointb\x06proto3'
 )
 
 
 
 
-_MESSAGE = _descriptor.Descriptor(
-  name='Message',
-  full_name='Message',
+_DATAPOINT = _descriptor.Descriptor(
+  name='DataPoint',
+  full_name='DataPoint',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='message', full_name='Message.message', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      name='sensor_id', full_name='DataPoint.sensor_id', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='temperature', full_name='DataPoint.temperature', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='humidity', full_name='DataPoint.humidity', index=2,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -53,29 +67,22 @@ _MESSAGE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=16,
-  serialized_end=42,
+  serialized_end=85,
 )
 
 
-_ITEM = _descriptor.Descriptor(
-  name='Item',
-  full_name='Item',
+_SENSORDATA = _descriptor.Descriptor(
+  name='SensorData',
+  full_name='SensorData',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='item_id', full_name='Item.item_id', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
-    _descriptor.FieldDescriptor(
-      name='query_param', full_name='Item.query_param', index=1,
-      number=2, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=b"".decode('utf-8'),
+      name='data_points', full_name='SensorData.data_points', index=0,
+      number=1, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
@@ -91,27 +98,28 @@ _ITEM = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=44,
-  serialized_end=88,
+  serialized_start=87,
+  serialized_end=132,
 )
 
-DESCRIPTOR.message_types_by_name['Message'] = _MESSAGE
-DESCRIPTOR.message_types_by_name['Item'] = _ITEM
+_SENSORDATA.fields_by_name['data_points'].message_type = _DATAPOINT
+DESCRIPTOR.message_types_by_name['DataPoint'] = _DATAPOINT
+DESCRIPTOR.message_types_by_name['SensorData'] = _SENSORDATA
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
-Message = _reflection.GeneratedProtocolMessageType('Message', (_message.Message,), {
-  'DESCRIPTOR' : _MESSAGE,
+DataPoint = _reflection.GeneratedProtocolMessageType('DataPoint', (_message.Message,), {
+  'DESCRIPTOR' : _DATAPOINT,
   '__module__' : 'models_pb2'
-  # @@protoc_insertion_point(class_scope:Message)
+  # @@protoc_insertion_point(class_scope:DataPoint)
   })
-_sym_db.RegisterMessage(Message)
+_sym_db.RegisterMessage(DataPoint)
 
-Item = _reflection.GeneratedProtocolMessageType('Item', (_message.Message,), {
-  'DESCRIPTOR' : _ITEM,
+SensorData = _reflection.GeneratedProtocolMessageType('SensorData', (_message.Message,), {
+  'DESCRIPTOR' : _SENSORDATA,
   '__module__' : 'models_pb2'
-  # @@protoc_insertion_point(class_scope:Item)
+  # @@protoc_insertion_point(class_scope:SensorData)
   })
-_sym_db.RegisterMessage(Item)
+_sym_db.RegisterMessage(SensorData)
 
 
 # @@protoc_insertion_point(module_scope)

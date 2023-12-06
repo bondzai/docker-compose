@@ -1,10 +1,11 @@
 syntax = "proto3";
 
-message Message {
-    string message = 1;
+message DataPoint {
+    int32 sensor_id = 1;
+    float temperature = 2;
+    float humidity = 3;
 }
 
-message Item {
-    int32 item_id = 1;
-    string query_param = 2;
+message SensorData {
+    repeated DataPoint data_points = 1;
 }
