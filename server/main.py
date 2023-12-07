@@ -2,9 +2,19 @@ import io
 import random
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
 from models_pb2 import SensorData
 
 app = FastAPI()
+
+# Allow CORS for localhost
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def generate_sensor_data(size):
     sensor_data = SensorData()
@@ -17,7 +27,7 @@ def generate_sensor_data(size):
 
 @app.get("/json/")
 def json_endpoint():
-    sensor_data = generate_sensor_data(size=10000)
+    sensor_data = generate_sensor_data(size=20000)
     sensor_data_dict = {
         "data_points": [
             {
@@ -32,6 +42,6 @@ def json_endpoint():
 
 @app.get("/protobuf/")
 def protobuf_endpoint():
-    sensor_data = generate_sensor_data(size=10000)
+    sensor_data = generate_sensor_data(size=20000)
     serialized_data = sensor_data.SerializeToString()
     return StreamingResponse(io.BytesIO(serialized_data), media_type="application/protobuf")
