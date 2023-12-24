@@ -1,0 +1,15 @@
+version: "3.8"
+
+x-file-path: &file-path ./../../config/services.yaml
+
+services:
+  portainer:
+    extends:
+      file: *file-path
+      service: portainer
+    networks:
+      - admin
+
+networks:
+  admin:
+    driver: bridge
