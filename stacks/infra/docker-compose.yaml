@@ -1,9 +1,11 @@
 version: "3.8"
 
+x-file-path: &file-path /../../config/services.yaml
+
 services:
   rabbitmq:
     extends:
-      file: ../../configs/services.yaml
+      file: *file-path
       service: rabbitmq
     networks:
       - backend
@@ -12,7 +14,7 @@ services:
 
   mongo:
     extends:
-      file: ../../configs/services.yaml
+      file: *file-path
       service: mongo
     networks:
       - backend
