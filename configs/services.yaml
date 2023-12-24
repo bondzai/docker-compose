@@ -1,0 +1,164 @@
+services:
+  base_service: &base
+    init: true
+    restart: always
+
+  portainer:
+    <<: *base
+    image: ${PORTAINER_IMAGE:-portainer/portainer-ce:latest}
+    container_name: portainer-con
+    hostname: portainer
+    ports:
+      - "9443:9443"
+    volumes:
+      - ../data/portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  yacht:
+    <<: *base
+    image: ${YACTH_IMAGE:-selfhostedpro/yacht:latest}
+    container_name: yacht-con
+    hostname: yacht
+    ports:
+      - "9444:8000"
+    volumes:
+      - ../data/yacht:/config
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  rancher:
+    <<: *base
+    image: rancher/rancher
+    container_name: rancher-con
+    hostname: rancher
+    privileged: true
+    ports:
+      - "9445:80"
+      - "9446:443"
+
+  influx:
+    <<: *base
+    image: ${INFLUX_IMAGE:-influxdb:latest}
+    container_name: influx-con
+    hostname: influx
+    ports:
+      - "8086:8086"
+
+  postgres:
+    <<: *base
+    image: ${POSTGRES_IMAGE:-postgres:13-alpine3.17}
+    container_name: postgres-con
+    hostname: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=jb
+      - POSTGRES_PASSWORD=12345678
+      - POSTGRES_DB=init
+
+  pgadmin:
+    <<: *base
+    image: ${PGADMIN_IMAGE:-dpage/pgadmin4:latest}
+    container_name: pgadmin-con
+    hostname: pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-admin@jb.dev}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-jb12345}
+
+  mongo:
+    <<: *base
+    image: mongo:latest
+    container_name: mongo-con
+    hostname: mongo
+    ports:
+      - "${PORT:-27017}:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+
+  mysql:
+    <<: *base
+    image: mysql:latest
+    container_name: mysql-con
+    hostname: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: init
+
+  phpmyadmin:
+    <<: *base
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin-con
+    hostname: phpmyadmin
+    ports:
+      - "8082:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: "3306"
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+      - mysql
+
+  redis:
+    <<: *base
+    image: ${REDIS_IMAGE:-redis:7.0.8-alpine}
+    container_name: redis-con
+    hostname: redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+
+  redisinsight:
+    <<: *base
+    image: redislabs/redisinsight:latest
+    container_name: redisinsight-con
+    hostname: redisinsight
+    ports:
+      - "8004:8001"
+    volumes:
+      - ../data/redisinsight-data:/db
+    environment:
+      - TZ=UTC
+
+  rabbitmq:
+    <<: *base
+    image: rabbitmq:3.9.29-management
+    container_name: rabbitmq-con
+    hostname: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "node_health_check"]
+      interval: 30s
+      timeout: 3s
+      retries: 5
+
+  memcached:
+    <<: *base
+    image: memcached:latest
+    container_name: memcached-con
+    hostname: memcached
+    ports:
+      - "11211:11211"
+
+  prometheus:
+    <<: *base
+    image: prom/prometheus:latest
+    container_name: prometheus-con
+    hostname: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - ./prometheus/data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
