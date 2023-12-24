@@ -3,6 +3,13 @@ version: "3.8"
 x-file-path: &file-path ./../../config/services.yaml
 
 services:
+  redis:
+    extends:
+      file: *file-path
+      service: redis
+    networks:
+      - infra
+
   rabbitmq:
     extends:
       file: *file-path
