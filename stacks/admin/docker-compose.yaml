@@ -9,6 +9,19 @@ services:
       service: portainer
     networks:
       - admin
+    volumes:
+      - ./data/portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  yacht:
+    extends:
+      file: *file-path
+      service: yacht
+    networks:
+      - admin
+    volumes:
+      - ./data/yacht:/config
+      - /var/run/docker.sock:/var/run/docker.sock
 
 networks:
   admin:
