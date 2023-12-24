@@ -10,9 +10,6 @@ services:
     hostname: portainer
     ports:
       - "9443:9443"
-    volumes:
-      - ../data/portainer:/data
-      - /var/run/docker.sock:/var/run/docker.sock
 
   yacht:
     <<: *base
@@ -22,7 +19,7 @@ services:
     ports:
       - "9444:8000"
     volumes:
-      - ../data/yacht:/config
+      - ./data/yacht:/config
       - /var/run/docker.sock:/var/run/docker.sock
 
   rancher:
@@ -124,6 +121,14 @@ services:
     environment:
       - TZ=UTC
 
+  memcached:
+    <<: *base
+    image: memcached:latest
+    container_name: memcached-con
+    hostname: memcached
+    ports:
+      - "11211:11211"
+
   rabbitmq:
     <<: *base
     image: rabbitmq:3.9.29-management
@@ -140,14 +145,6 @@ services:
       interval: 30s
       timeout: 3s
       retries: 5
-
-  memcached:
-    <<: *base
-    image: memcached:latest
-    container_name: memcached-con
-    hostname: memcached
-    ports:
-      - "11211:11211"
 
   prometheus:
     <<: *base
