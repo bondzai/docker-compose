@@ -33,6 +33,20 @@ services:
     networks:
       - infra
 
+  mysql:
+    extends:
+      file: *file-path
+      service: mysql
+    networks:
+      - infra
+
+  phpmyadmin:
+    extends:
+      file: *file-path
+      service: phpmyadmin
+    networks:
+      - infra
+
 volumes:
   rabbitmq-data:
 networks:
