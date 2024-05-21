@@ -48,7 +48,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=jb
+      - POSTGRES_USER=root
       - POSTGRES_PASSWORD=12345678
       - POSTGRES_DB=init
 
