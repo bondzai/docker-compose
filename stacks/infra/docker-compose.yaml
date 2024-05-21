@@ -33,17 +33,17 @@ services:
     networks:
       - infra
 
-  mysql:
+  pgadmin:
     extends:
       file: *file-path
-      service: mysql
+      service: pgadmin
     networks:
       - infra
 
-  phpmyadmin:
+  postgres:
     extends:
       file: *file-path
-      service: phpmyadmin
+      service: postgres
     networks:
       - infra
 
