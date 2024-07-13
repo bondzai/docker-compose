@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   zookeeper:
     image: zookeeper:3.4.9
@@ -8,6 +6,8 @@ services:
       - "2181:2181"
     networks:
       - kafka
+    init: true
+    restart: always
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -25,6 +25,8 @@ services:
       - zookeeper
     networks:
       - kafka
+    init: true
+    restart: always
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -40,6 +42,8 @@ services:
       - zookeeper
     networks:
       - kafka
+    init: true
+    restart: always
 
 networks:
   kafka:
